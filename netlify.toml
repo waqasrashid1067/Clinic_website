@@ -1,0 +1,49 @@
+# Static site — no build step needed.
+[build]
+  publish = "."
+  command = ""
+
+# Photos and video: cache hard. They rarely change, and when they do
+# you can force a refresh by renaming the file.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# HTML always revalidates, so edits go live immediately.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Let people type /prices instead of /prices.html
+[[redirects]]
+  from = "/prices"
+  to = "/prices.html"
+  status = 301
+[[redirects]]
+  from = "/contact"
+  to = "/contact.html"
+  status = 301
+[[redirects]]
+  from = "/articles"
+  to = "/articles.html"
+  status = 301
+[[redirects]]
+  from = "/blog"
+  to = "/articles.html"
+  status = 301
